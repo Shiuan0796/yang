@@ -238,7 +238,6 @@
         const SCALE_INCREMENT = 0.2;
         let initialAgreeWidth = 0;
         let initialAgreeHeight = 0;
-
         // === RWD 邏輯：計算最大放大比例 (可能產生警告 6) ===
         function calculateMaxScale() {
             // 確保按鈕被渲染後才能獲取尺寸
@@ -265,7 +264,7 @@
         // === 圖片切換效果 ===
         function switchImage(newSrc) {
             reactionImage.style.opacity = 0;
-            reactionImage.style.transform = 'scale(0.8)';
+            reactionImage.style.transform = 'scale(1)';
 
             setTimeout(() => {
                 reactionImage.src = newSrc;
@@ -335,7 +334,7 @@ ${deviceInfo}
                 heart.style.setProperty('--x', `${finalX}px`);
                 heart.style.setProperty('--y', `${finalY}px`);
                 heart.style.setProperty('--r', `${rotation}deg`);
-                heart.style.animationDelay = `${Math.random() * 0.1}s`;
+                heart.style.animationDelay = `${Math.random() * 0.2}s`;
                 
                 document.body.appendChild(heart);
 
@@ -390,40 +389,60 @@ ${deviceInfo}
             agreeBtn.classList.add("mega-pulse");
         });
 
-        // === 💕 按「和好」事件處理器 (重設邏輯) ===
-        agreeBtn.addEventListener('click', () => {
-            // 1. 愛心爆發特效 (💖)
-            const btnRect = agreeBtn.getBoundingClientRect();
-            const centerX = btnRect.left + btnRect.width / 2;
-            const centerY = btnRect.top + btnRect.height / 2;
-            createHeartParticles(centerX, centerY, false);
+        // === 💕 按「和好」事件處理器 (多階段重設與重新整理邏輯) ===
+        agreeBtn.addEventListener('click', () => {
+            // 1. 愛心爆發特效 (💖)
+            const btnRect = agreeBtn.getBoundingClientRect();
+            const centerX = btnRect.left + btnRect.width / 2;
+            const centerY = btnRect.top + btnRect.height / 2;
+            createHeartParticles(centerX, centerY, false);
 
-            // 2. 狀態與紀錄
-            switchImage(happyImageUrl);
-            recordAction("和好 💕");
+            // 2. 狀態與紀錄
+            switchImage(happyImageUrl); // 圖片切換到 image/sticker.png (停留)
+            recordAction("和好 💕 (頁面將在 5 秒後重新整理)");
 
-            // 3. 按鈕動畫 (新的甜蜜彈跳效果)
-            agreeBtn.classList.remove("mega-pulse");
-            agreeBtn.classList.add("sweet-bounce"); 
+            // 3. 按鈕動畫 (新的甜蜜彈跳效果)
+            agreeBtn.classList.remove("mega-pulse");
+            agreeBtn.classList.add("sweet-bounce"); 
 
-            // 300ms 後重設狀態
-            setTimeout(() => {
-                agreeBtn.classList.remove("sweet-bounce");
+            // 禁用按鈕，防止重複點擊
+            agreeBtn.disabled = true;
+            refuseBtn.disabled = true;
 
-                // 4. 重設所有元素到初始狀態
-                switchImage(defaultImageUrl);
-                mainTitle.textContent = initialTitleText;
-                messageIndex = 0;
-                currentAgreeScale = 1;
+            // === 階段一：立即視覺歸位 (約 300ms 動畫時間) ===
+            setTimeout(() => {
+                agreeBtn.classList.remove("sweet-bounce");
 
-                agreeBtn.style.transform = "scale(1)";
-                refuseBtn.style.transform = "scale(1) translateX(0px)";
-                refuseBtn.style.opacity = 1;
+                // A. 按鈕、標題、文字先歸位
+                mainTitle.textContent = initialTitleText;
+                messageIndex = 0;
+                currentAgreeScale = 1;
 
-                syncMessage.style.opacity = 0;
-                syncMessage.style.transform = `translate(-50%, -50%) scale(1) translateX(0px)`;
-            }, 300);
-        });
+                agreeBtn.style.transform = "scale(1)";
+                refuseBtn.style.transform = "scale(1) translateX(0px)";
+                refuseBtn.style.opacity = 1;
+
+                syncMessage.style.opacity = 0;
+                syncMessage.style.transform = `translate(-50%, -50%) scale(1) translateX(0px)`;
+                
+                // B. 圖片保持在 happyImageUrl (image/sticker.png)
+                
+                // === 階段二： 1000ms (1 秒) 後圖片歸位，並設定總計 5 秒後重新整理 ===
+                setTimeout(() => {
+                    switchImage(defaultImageUrl); // 圖片切換回封面圖
+                    recordAction("圖片切換回封面圖");
+
+                    // 總計 5 秒 (即從點擊開始經過 1000ms + 4000ms = 5000ms)
+                    // 這裡的延遲時間是 4000ms (4秒)
+                    setTimeout(() => {
+                        sendSummaryEmail(); 
+                        window.location.reload(); 
+                    }, 300); 
+
+                }, 1000); // 視覺歸位後等待 1 秒才換圖片
+
+            }, 300); // 按鈕動畫的持續時間
+        });
     </script>
 
 </body>
