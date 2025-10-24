@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>小淞和好小遊戲 💖</title>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Chettan+2:wght@400;700&display=swap">
+    
     <style>
-        /* 引入 Google 提供的可愛字體 */
-        @import url('https://fonts.googleapis.com/css2?family=Baloo+Chettan+2:wght@400;700&display=swap');
-
         /* === 全局設定與背景 === */
         body {
             text-align: center;
@@ -126,7 +126,7 @@
             50% { transform: scale(calc(var(--current-scale) + 0.05)); }
         }
 
-        /* === 按鈕動畫：和好時的甜蜜彈跳 (Sweet Bounce) - 替換了原來的 pulse === */
+        /* === 按鈕動畫：和好時的甜蜜彈跳 (Sweet Bounce) === */
         .sweet-bounce {
             animation: sweetBounce 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* 緩進緩出 */
             box-shadow: 0 0 40px rgba(255, 102, 170, 0.8), 0 4px 10px rgba(0, 0, 0, 0.2); /* 勝利光暈 */
@@ -197,8 +197,8 @@
     <script>
         // 立即執行函式，初始化 EmailJS
         (function () {
-            // !!! 請替換為你的 EmailJS ID !!!
-            emailjs.init("juXElQrPso7c6tWXE");
+            // 錯誤 4: 請替換為您在 EmailJS 網站上註冊的【真實 Public Key】
+            emailjs.init("juXElQrPso7c6tWXE"); 
         })();
 
         // === DOM 元素獲取 ===
@@ -225,7 +225,7 @@
             "你這個小惡魔，快點被我甜甜的愛融化啦！🥰",
         ];
         
-        // !!! 請確認這些圖片路徑是否正確 !!!
+        // 錯誤 2, 3: 請再次確認這些圖片路徑是否正確!
         const defaultImageUrl = "image/main.png 2.png";
         const happyImageUrl = "image/sticker.png";
         const angryImageUrl = "image/main.png";
@@ -239,7 +239,7 @@
         let initialAgreeWidth = 0;
         let initialAgreeHeight = 0;
 
-        // === RWD 邏輯：計算最大放大比例 ===
+        // === RWD 邏輯：計算最大放大比例 (可能產生警告 6) ===
         function calculateMaxScale() {
             // 確保按鈕被渲染後才能獲取尺寸
             if (agreeBtn.offsetWidth === 0) {
