@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>小淞和好小遊戲 💖</title>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Chettan+2:wght@400;700&display=swap">
-    
+
     <style>
         /* === 全局設定與背景 === */
         body {
@@ -23,7 +24,8 @@
             align-items: center;
             overflow-x: hidden;
             box-sizing: border-box;
-            position: relative; /* 用於愛心粒子的絕對定位 */
+            position: relative;
+            /* 用於愛心粒子的絕對定位 */
         }
 
         /* === 標題樣式與動畫 === */
@@ -38,8 +40,15 @@
         }
 
         @keyframes floatText {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(1deg); }
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(1deg);
+            }
         }
 
         /* === 圖片樣式 === */
@@ -120,22 +129,52 @@
         }
 
         /* === 按鈕動畫：拒絕時的放大脈衝 (Mega Pulse) === */
-        .mega-pulse { animation: megaPulse 0.4s ease-in-out; }
+        .mega-pulse {
+            animation: megaPulse 0.4s ease-in-out;
+        }
+
         @keyframes megaPulse {
-            0%, 100% { transform: scale(var(--current-scale)); box-shadow: 0 0 30px #ff66aa, 0 0 10px #ff99cc; }
-            50% { transform: scale(calc(var(--current-scale) + 0.05)); }
+
+            0%,
+            100% {
+                transform: scale(var(--current-scale));
+                box-shadow: 0 0 30px #ff66aa, 0 0 10px #ff99cc;
+            }
+
+            50% {
+                transform: scale(calc(var(--current-scale) + 0.05));
+            }
         }
 
         /* === 按鈕動畫：和好時的甜蜜彈跳 (Sweet Bounce) === */
         .sweet-bounce {
-            animation: sweetBounce 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* 緩進緩出 */
-            box-shadow: 0 0 40px rgba(255, 102, 170, 0.8), 0 4px 10px rgba(0, 0, 0, 0.2); /* 勝利光暈 */
+            animation: sweetBounce 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            /* 緩進緩出 */
+            box-shadow: 0 0 40px rgba(255, 102, 170, 0.8), 0 4px 10px rgba(0, 0, 0, 0.2);
+            /* 勝利光暈 */
         }
+
         @keyframes sweetBounce {
-            0% { transform: scale(1); }
-            30% { transform: scale(1.1); } /* 稍微彈出 */
-            70% { transform: scale(0.95); } /* 輕微回縮 */
-            100% { transform: scale(1); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); } /* 回到正常大小，移除光暈 */
+            0% {
+                transform: scale(1);
+            }
+
+            30% {
+                transform: scale(1.1);
+            }
+
+            /* 稍微彈出 */
+            70% {
+                transform: scale(0.95);
+            }
+
+            /* 輕微回縮 */
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            /* 回到正常大小，移除光暈 */
         }
 
 
@@ -151,35 +190,86 @@
 
         /* 按「不和好」：愛心分裂 (💔) */
         @keyframes splitHeart {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
-            50% { transform: translate(var(--x), var(--y)) scale(1.2) rotate(var(--r)); opacity: 1; }
-            100% { transform: translate(var(--x), var(--y)) scale(0) rotate(var(--r)); opacity: 0; }
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translate(var(--x), var(--y)) scale(1.2) rotate(var(--r));
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--x), var(--y)) scale(0) rotate(var(--r));
+                opacity: 0;
+            }
         }
 
         /* 按「和好」：愛心爆發 (💖) */
         @keyframes burstHeart {
-            0% { transform: translate(0, 0) scale(1) opacity： 1; }
-            50% { transform: translate(var(--x), var(--y)) scale(1.5)opacity： 1; }
-            100% { transform: translate(var(--x), var(--y)) scale(0.5)opacity：0; }
+            0% {
+                transform: translate(0, 0) scale(1) opacity： 1;
+            }
+
+            50% {
+                transform: translate(var(--x), var(--y)) scale(1.5)opacity： 1;
+            }
+
+            100% {
+                transform: translate(var(--x), var(--y)) scale(0.5)opacity：0;
+            }
         }
 
-        .split { animation: splitHeart 1.5s cubic-bezier(0.2, 0.8, 0.5, 1) forwards; }
-        .burst { animation: burstHeart 1.5s cubic-bezier(0.1, 0.9, 0.2, 1.2) forwards; }
+        .split {
+            animation: splitHeart 1.5s cubic-bezier(0.2, 0.8, 0.5, 1) forwards;
+        }
+
+        .burst {
+            animation: burstHeart 1.5s cubic-bezier(0.1, 0.9, 0.2, 1.2) forwards;
+        }
+
         /* === 愛心特效的樣式與動畫 END === */
 
 
         /* === 手機調整 (RWD 優化) === */
         @media (max-width: 600px) {
-            body { padding-top: 20px; }
-            h1 { font-size: 26px; margin-bottom: 15px; }
-            #reactionImage { width: 180px; height: 180px; margin: 15px auto; }
-            .button-container { gap: 10px; padding: 0 10px; }
-            button { font-size: 16px; padding: 12px 20px; }
-            #syncMessage { font-size: 14px; }
-            .heart-particle { font-size: 16px; }
+            body {
+                padding-top: 20px;
+            }
+
+            h1 {
+                font-size: 26px;
+                margin-bottom: 15px;
+            }
+
+            #reactionImage {
+                width: 180px;
+                height: 180px;
+                margin: 15px auto;
+            }
+
+            .button-container {
+                gap: 10px;
+                padding: 0 10px;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 12px 20px;
+            }
+
+            #syncMessage {
+                font-size: 14px;
+            }
+
+            .heart-particle {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <h1>小寶寶 ~ 和好好不好？🥺</h1>
@@ -195,98 +285,98 @@
 
 
     <script>
-        // 立即執行函式，初始化 EmailJS
-        (function () {
-            // 錯誤 4: 請替換為您在 EmailJS 網站上註冊的【真實 Public Key】
-            emailjs.init("juXElQrPso7c6tWXE"); 
-        })();
+        // 立即執行函式，初始化 EmailJS
+        (function () {
+            // 錯誤 4: 請替換為您在 EmailJS 網站上註冊的【真實 Public Key】
+            emailjs.init("juXElQrPso7c6tWXE");
+        })();
 
-        // === DOM 元素獲取 ===
-        const agreeBtn = document.getElementById('agreeBtn');
-        const refuseBtn = document.getElementById('refuseBtn');
-        const reactionImage = document.getElementById('reactionImage');
-        const mainTitle = document.querySelector('h1');
-        const syncMessage = document.getElementById('syncMessage');
+        // === DOM 元素獲取 ===
+        const agreeBtn = document.getElementById('agreeBtn');
+        const refuseBtn = document.getElementById('refuseBtn');
+        const reactionImage = document.getElementById('reactionImage');
+        const mainTitle = document.querySelector('h1');
+        const syncMessage = document.getElementById('syncMessage');
 
-        // === 常數與狀態 ===
-        const initialTitleText = "小寶寶 ~ 和好好不好？🥺";
-        const apologizeMessages = [
-            "我真的知道錯了！原諒我嘛，求你了！😭",
-            "親愛的，我好想你呀寶寶，快點抱抱我！🙏",
-            "再點一次，我就要哭了喔！我好愛你！🥺",
-            "全世界最可愛的寶寶，快點和好好不好？💖",
-            "點再多遍也沒用，你遲早要和好的！😝 (求你只是走個流程)",
-            "我願意為你做任何事，只要你不生氣了！💍",
-            "別折磨我了，快按和好！我帶你去吃甘草芭樂！😋",
-            "難道你喜歡看我可憐巴巴的樣子嗎？😘",
-            "我的小寶寶，快回來，不然我要原地炸爆米花了！💥",
-            "我發誓以後都聽你的，好不好嘛，老公大人～🐶",
-            "再不和好，我今晚就要去你夢裡咬人囉！💤",
-            "你這個小惡魔，快點被我甜甜的愛融化啦！🥰",
-        ];
-        
-        // 錯誤 2, 3: 請再次確認這些圖片路徑是否正確!
-        const defaultImageUrl = "image/main.png_2.png";
-        const happyImageUrl = "image/sticker.png";
-        const angryImageUrl = "image/main.png";
-        
-        let messageIndex = 0;
-        let actions = [];
-        let sendTimer = null;
-        let currentAgreeScale = 1;
-        let maxFillScale = 1;
-        const SCALE_INCREMENT = 0.2;
-        let initialAgreeWidth = 0;
-        let initialAgreeHeight = 0;
-        // === RWD 邏輯：計算最大放大比例 (可能產生警告 6) ===
-        function calculateMaxScale() {
-            // 確保按鈕被渲染後才能獲取尺寸
-            if (agreeBtn.offsetWidth === 0) {
-                setTimeout(calculateMaxScale, 50);
-                return;
-            }
-            initialAgreeWidth = agreeBtn.offsetWidth;
-            initialAgreeHeight = agreeBtn.offsetHeight;
+        // === 常數與狀態 ===
+        const initialTitleText = "小寶寶 ~ 和好好不好？🥺";
+        const apologizeMessages = [
+            "我真的知道錯了！原諒我嘛，求你了！😭",
+            "親愛的，我好想你呀寶寶，快點抱抱我！🙏",
+            "再點一次，我就要哭了喔！我好愛你！🥺",
+            "全世界最可愛的寶寶，快點和好好不好？💖",
+            "點再多遍也沒用，你遲早要和好的！😝 (求你只是走個流程)",
+            "我願意為你做任何事，只要你不生氣了！💍",
+            "別折磨我了，快按和好！我帶你去吃甘草芭樂！😋",
+            "難道你喜歡看我可憐巴巴的樣子嗎？😘",
+            "我的小寶寶，快回來，不然我要原地炸爆米花了！💥",
+            "我發誓以後都聽你的，好不好嘛，老公大人～🐶",
+            "再不和好，我今晚就要去你夢裡咬人囉！💤",
+            "你這個小惡魔，快點被我甜甜的愛融化啦！🥰",
+        ];
 
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
+        // 錯誤 2, 3: 請再次確認這些圖片路徑是否正確!
+        const defaultImageUrl = "image/main.png_2.png";
+        const happyImageUrl = "image/sticker.png";
+        const angryImageUrl = "image/main.png";
 
-            const scaleNeededWidth = viewportWidth / initialAgreeWidth;
-            const scaleNeededHeight = viewportHeight / initialAgreeHeight;
+        let messageIndex = 0;
+        let actions = [];
+        let sendTimer = null;
+        let currentAgreeScale = 1;
+        let maxFillScale = 1;
+        const SCALE_INCREMENT = 0.2;
+        let initialAgreeWidth = 0;
+        let initialAgreeHeight = 0;
+        // === RWD 邏輯：計算最大放大比例 (可能產生警告 6) ===
+        function calculateMaxScale() {
+            // 確保按鈕被渲染後才能獲取尺寸
+            if (agreeBtn.offsetWidth === 0) {
+                setTimeout(calculateMaxScale, 50);
+                return;
+            }
+            initialAgreeWidth = agreeBtn.offsetWidth;
+            initialAgreeHeight = agreeBtn.offsetHeight;
 
-            maxFillScale = Math.max(scaleNeededWidth, scaleNeededHeight) * 1.1;
-            maxFillScale = Math.max(1, maxFillScale);
-        }
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
 
-        window.addEventListener('load', calculateMaxScale);
-        window.addEventListener('resize', calculateMaxScale);
+            const scaleNeededWidth = viewportWidth / initialAgreeWidth;
+            const scaleNeededHeight = viewportHeight / initialAgreeHeight;
 
-        // === 圖片切換效果 ===
-        function switchImage(newSrc) {
-            reactionImage.style.opacity = 0;
-            reactionImage.style.transform = 'scale(1)';
+            maxFillScale = Math.max(scaleNeededWidth, scaleNeededHeight) * 1.1;
+            maxFillScale = Math.max(1, maxFillScale);
+        }
 
-            setTimeout(() => {
-                reactionImage.src = newSrc;
-                reactionImage.style.opacity = 1;
-                reactionImage.style.transform = 'scale(1)';
-            }, 300);
-        }
+        window.addEventListener('load', calculateMaxScale);
+        window.addEventListener('resize', calculateMaxScale);
 
-        // === EmailJS 紀錄與發送邏輯 ===
-        function recordAction(actionText) {
-            const time = new Date().toLocaleTimeString();
-            actions.push(`${time} ➤ ${actionText}`);
-            clearTimeout(sendTimer);
-            // 閒置 10 秒後發送紀錄
-            sendTimer = setTimeout(sendSummaryEmail, 5000);
-        }
+        // === 圖片切換效果 ===
+        function switchImage(newSrc) {
+            reactionImage.style.opacity = 0;
+            reactionImage.style.transform = 'scale(1)';
 
-        function sendSummaryEmail() {
-            if (actions.length === 0) return;
-            const time = new Date().toLocaleString();
-            const deviceInfo = navigator.userAgent;
-            const message = `
+            setTimeout(() => {
+                reactionImage.src = newSrc;
+                reactionImage.style.opacity = 1;
+                reactionImage.style.transform = 'scale(1)';
+            }, 300);
+        }
+
+        // === EmailJS 紀錄與發送邏輯 ===
+        function recordAction(actionText) {
+            const time = new Date().toLocaleTimeString();
+            actions.push(`${time} ➤ ${actionText}`);
+            clearTimeout(sendTimer);
+            // 閒置 10 秒後發送紀錄
+            sendTimer = setTimeout(sendSummaryEmail, 5000);
+        }
+
+        function sendSummaryEmail() {
+            if (actions.length === 0) return;
+            const time = new Date().toLocaleString();
+            const deviceInfo = navigator.userAgent;
+            const message = `
 📩 使用者互動紀錄：
 ${actions.join("\n")}
 ────────────────────
@@ -295,154 +385,155 @@ ${deviceInfo}
 🕓 結束時間：${time}
 `;
 
-            const templateParams = {
-                subject: "和好小遊戲 💞 使用者互動紀錄",
-                message: message
-            };
+            const templateParams = {
+                subject: "和好小遊戲 💞 使用者互動紀錄",
+                message: message
+            };
 
-            emailjs.send("service_8vnnk73", "template_prz1cl9", templateParams)
-                .then(() => console.log("📨 已寄出整合紀錄"))
-                .catch(err => console.error("❌ 寄信失敗：", err));
+            emailjs.send("sservice_8vnnk73", "template_prz1cl9", templateParams)
+                .then(() => console.log("📨 已寄出整合紀錄"))
+                .catch(err => console.error("❌ 寄信失敗：", err));
 
-            actions = [];
-        }
+            actions = [];
+        }
 
-        // 頁面關閉或重新整理時發送最後的紀錄
-        window.addEventListener('beforeunload', sendSummaryEmail);
+        // 頁面關閉或重新整理時發送最後的紀錄
+        window.addEventListener('beforeunload', sendSummaryEmail);
 
-        // === 愛心粒子特效函式 ===
-        function createHeartParticles(x, y, isSplit = false) {
-            const numParticles = isSplit ? 4 : 8; 
-            const heartSymbol = isSplit ? '💗' : '💗';
-            const animationClass = isSplit ? 'split' : 'burst';
+        // === 愛心粒子特效函式 ===
+        function createHeartParticles(x, y, isSplit = false) {
+            const numParticles = isSplit ? 4 : 8;
+            const heartSymbol = isSplit ? '💗' : '💗';
+            const animationClass = isSplit ? 'split' : 'burst';
 
-            for (let i = 0; i < numParticles; i++) {
-                const heart = document.createElement('span');
-                heart.className = `heart-particle ${animationClass}`;
-                heart.textContent = heartSymbol;
+            for (let i = 0; i < numParticles; i++) {
+                const heart = document.createElement('span');
+                heart.className = `heart-particle ${animationClass}`;
+                heart.textContent = heartSymbol;
 
-                heart.style.left = `${x}px`;
-                heart.style.top = `${y}px`;
+                heart.style.left = `${x}px`;
+                heart.style.top = `${y}px`;
 
-                const angle = (360 / numParticles) * i + (Math.random() * 30 - 15);
-                const distance = isSplit ? (Math.random() * 80 + 50) : (Math.random() * 100 + 100);
-                
-                const finalX = Math.cos(angle * (Math.PI / 180)) * distance;
-                const finalY = Math.sin(angle * (Math.PI / 180)) * distance;
-                const rotation = Math.random() * 720 - 360;
+                const angle = (360 / numParticles) * i + (Math.random() * 30 - 15);
+                const distance = isSplit ? (Math.random() * 80 + 50) : (Math.random() * 100 + 100);
 
-                heart.style.setProperty('--x', `${finalX}px`);
-                heart.style.setProperty('--y', `${finalY}px`);
-                heart.style.setProperty('--r', `${rotation}deg`);
-                heart.style.animationDelay = `${Math.random() * 0.2}s`;
-                
-                document.body.appendChild(heart);
+                const finalX = Math.cos(angle * (Math.PI / 180)) * distance;
+                const finalY = Math.sin(angle * (Math.PI / 180)) * distance;
+                const rotation = Math.random() * 720 - 360;
 
-                heart.addEventListener('animationend', () => {
-                    heart.remove();
-                });
-            }
-        }
+                heart.style.setProperty('--x', `${finalX}px`);
+                heart.style.setProperty('--y', `${finalY}px`);
+                heart.style.setProperty('--r', `${rotation}deg`);
+                heart.style.animationDelay = `${Math.random() * 0.2}s`;
 
-        // === 😤 按「不和好」事件處理器 (核心互動邏輯) ===
-        refuseBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
+                document.body.appendChild(heart);
 
-            // 1. 愛心分裂特效 (💔)
-            const btnRect = refuseBtn.getBoundingClientRect();
-            const centerX = btnRect.left + btnRect.width / 2;
-            const centerY = btnRect.top + btnRect.height / 2;
-            createHeartParticles(centerX, centerY, true);
+                heart.addEventListener('animationend', () => {
+                    heart.remove();
+                });
+            }
+        }
 
-            // 2. 狀態與紀錄
-            switchImage(angryImageUrl);
-            recordAction(`不和好 😤 (臺詞：${apologizeMessages[messageIndex]})`);
+        // === 😤 按「不和好」事件處理器 (核心互動邏輯) ===
+        refuseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
 
-            // 3. 換標題台詞
-            mainTitle.textContent = apologizeMessages[messageIndex];
-            messageIndex = (messageIndex + 1) % apologizeMessages.length;
+            // 1. 愛心分裂特效 (💔)
+            const btnRect = refuseBtn.getBoundingClientRect();
+            const centerX = btnRect.left + btnRect.width / 2;
+            const centerY = btnRect.top + btnRect.height / 2;
+            createHeartParticles(centerX, centerY, true);
 
-            // 4. 按鈕放大與推擠
-            currentAgreeScale = Math.min(currentAgreeScale + SCALE_INCREMENT, maxFillScale);
-            const agreeScale = currentAgreeScale;
-            
-            // 計算推擠距離
-            const addedWidth = initialAgreeWidth * (agreeScale - 1);
-            const pushDistance = (addedWidth / 2) + ((agreeScale - 1) * 5);
+            // 2. 狀態與紀錄
+            switchImage(angryImageUrl);
+            recordAction(`不和好 😤 (臺詞：${apologizeMessages[messageIndex]})`);
 
-            agreeBtn.style.transform = `scale(${agreeScale})`;
-            refuseBtn.style.transform = `scale(1) translateX(${pushDistance}px)`;
-            
-            // 5. 同步文字顯示
-            const maxScaleRange = maxFillScale - 1;
-            const currentScaleProgress = maxScaleRange > 0 ? (agreeScale - 1) / maxScaleRange : 0;
-            const syncOpacity = Math.min(1, currentScaleProgress * 2.5);
-            syncMessage.style.opacity = syncOpacity;
+            // 3. 換標題台詞
+            mainTitle.textContent = apologizeMessages[messageIndex];
+            messageIndex = (messageIndex + 1) % apologizeMessages.length;
 
-            const syncScale = 1 + currentScaleProgress * 1.5;
-            syncMessage.style.transform = `translate(-50%, -50%) scale(${syncScale}) translateX(${pushDistance}px)`;
+            // 4. 按鈕放大與推擠
+            currentAgreeScale = Math.min(currentAgreeScale + SCALE_INCREMENT, maxFillScale);
+            const agreeScale = currentAgreeScale;
 
-            // 6. 脈衝動畫
-            agreeBtn.style.setProperty('--current-scale', agreeScale);
-            agreeBtn.classList.remove("mega-pulse");
-            void agreeBtn.offsetWidth;
-            agreeBtn.classList.add("mega-pulse");
-        });
+            // 計算推擠距離
+            const addedWidth = initialAgreeWidth * (agreeScale - 1);
+            const pushDistance = (addedWidth / 2) + ((agreeScale - 1) * 5);
 
-        // === 💕 按「和好」事件處理器 (多階段重設與重新整理邏輯) ===
-        agreeBtn.addEventListener('click', () => {
-            // 1. 愛心特效 (💔) - 將參數改為 true，使用和「不和好」按鈕一樣的特效
-            const btnRect = agreeBtn.getBoundingClientRect();
-            const centerX = btnRect.left + btnRect.width / 2;
-            const centerY = btnRect.top + btnRect.height / 2;
-            createHeartParticles(centerX, centerY, true); // <-- HERE: Changed false to true
+            agreeBtn.style.transform = `scale(${agreeScale})`;
+            refuseBtn.style.transform = `scale(1) translateX(${pushDistance}px)`;
 
-            // 2. 狀態與紀錄
-            switchImage(happyImageUrl); // 圖片切換到 image/sticker.png (停留)
-            recordAction("和好 💕 (頁面將在 5 秒後重新整理)");
+            // 5. 同步文字顯示
+            const maxScaleRange = maxFillScale - 1;
+            const currentScaleProgress = maxScaleRange > 0 ? (agreeScale - 1) / maxScaleRange : 0;
+            const syncOpacity = Math.min(1, currentScaleProgress * 2.5);
+            syncMessage.style.opacity = syncOpacity;
 
-            // 3. 按鈕動畫 (新的甜蜜彈跳效果)
-            agreeBtn.classList.remove("mega-pulse");
-            agreeBtn.classList.add("sweet-bounce"); 
+            const syncScale = 1 + currentScaleProgress * 1.5;
+            syncMessage.style.transform = `translate(-50%, -50%) scale(${syncScale}) translateX(${pushDistance}px)`;
 
-            // 禁用按鈕，防止重複點擊
-            agreeBtn.disabled = true;
-            refuseBtn.disabled = true;
+            // 6. 脈衝動畫
+            agreeBtn.style.setProperty('--current-scale', agreeScale);
+            agreeBtn.classList.remove("mega-pulse");
+            void agreeBtn.offsetWidth;
+            agreeBtn.classList.add("mega-pulse");
+        });
 
-            // === 階段一：立即視覺歸位 (約 300ms 動畫時間) ===
-            setTimeout(() => {
-                agreeBtn.classList.remove("sweet-bounce");
+        // === 💕 按「和好」事件處理器 (多階段重設與重新整理邏輯) ===
+        agreeBtn.addEventListener('click', () => {
+            // 1. 愛心特效 (💔) - 將參數改為 true，使用和「不和好」按鈕一樣的特效
+            const btnRect = agreeBtn.getBoundingClientRect();
+            const centerX = btnRect.left + btnRect.width / 2;
+            const centerY = btnRect.top + btnRect.height / 2;
+            createHeartParticles(centerX, centerY, true); // <-- HERE: Changed false to true
 
-                // A. 按鈕、標題、文字先歸位
-                mainTitle.textContent = initialTitleText;
-                messageIndex = 0;
-                currentAgreeScale = 1;
+            // 2. 狀態與紀錄
+            switchImage(happyImageUrl); // 圖片切換到 image/sticker.png (停留)
+            recordAction("和好 💕 (頁面將在 5 秒後重新整理)");
 
-                agreeBtn.style.transform = "scale(1)";
-                refuseBtn.style.transform = "scale(1) translateX(0px)";
-                refuseBtn.style.opacity = 1;
+            // 3. 按鈕動畫 (新的甜蜜彈跳效果)
+            agreeBtn.classList.remove("mega-pulse");
+            agreeBtn.classList.add("sweet-bounce");
 
-                syncMessage.style.opacity = 0;
-                syncMessage.style.transform = `translate(-50%, -50%) scale(1) translateX(0px)`;
-                
-                // B. 圖片保持在 happyImageUrl (image/sticker.png)
-                
-                // === 階段二： 1000ms (1 秒) 後圖片歸位，並設定總計 5 秒後重新整理 ===
-                setTimeout(() => {
-                    switchImage(defaultImageUrl); // 圖片切換回封面圖
-                    recordAction("圖片切換回封面圖");
+            // 禁用按鈕，防止重複點擊
+            agreeBtn.disabled = true;
+            refuseBtn.disabled = true;
 
-                    // 總計 5 秒 (即從點擊開始經過 1000ms + 4000ms = 5000ms)
-                    // 這裡的延遲時間是 4000ms (4秒)
-                    setTimeout(() => {
-                        sendSummaryEmail(); 
-                        window.location.reload(); 
-                    }, 300); 
+            // === 階段一：立即視覺歸位 (約 300ms 動畫時間) ===
+            setTimeout(() => {
+                agreeBtn.classList.remove("sweet-bounce");
 
-                }, 1000); // 視覺歸位後等待 1 秒才換圖片
+                // A. 按鈕、標題、文字先歸位
+                mainTitle.textContent = initialTitleText;
+                messageIndex = 0;
+                currentAgreeScale = 1;
 
-            }, 300); // 按鈕動畫的持續時間
-        });
-    </script>
+                agreeBtn.style.transform = "scale(1)";
+                refuseBtn.style.transform = "scale(1) translateX(0px)";
+                refuseBtn.style.opacity = 1;
+
+                syncMessage.style.opacity = 0;
+                syncMessage.style.transform = `translate(-50%, -50%) scale(1) translateX(0px)`;
+
+                // B. 圖片保持在 happyImageUrl (image/sticker.png)
+
+                // === 階段二： 1000ms (1 秒) 後圖片歸位，並設定總計 5 秒後重新整理 ===
+                setTimeout(() => {
+                    switchImage(defaultImageUrl); // 圖片切換回封面圖
+                    recordAction("圖片切換回封面圖");
+
+                    // 總計 5 秒 (即從點擊開始經過 1000ms + 4000ms = 5000ms)
+                    // 這裡的延遲時間是 4000ms (4秒)
+                    setTimeout(() => {
+                        sendSummaryEmail();
+                        window.location.reload();
+                    }, 300);
+
+                }, 1000); // 視覺歸位後等待 1 秒才換圖片
+
+            }, 300); // 按鈕動畫的持續時間
+        });
+    </script>
 </body>
+
 </html>
