@@ -279,7 +279,7 @@
             actions.push(`${time} ➤ ${actionText}`);
             clearTimeout(sendTimer);
             // 閒置 10 秒後發送紀錄
-            sendTimer = setTimeout(sendSummaryEmail, 10000);
+            sendTimer = setTimeout(sendSummaryEmail, 5000);
         }
 
         function sendSummaryEmail() {
