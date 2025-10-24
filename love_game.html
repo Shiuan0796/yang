@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>和好小遊戲 💞</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+  body {
+    text-align: center;
+    background-color: #ffe6f2;
+    font-family: "微軟正黑體", sans-serif;
+    margin-top: 80px;
+  }
+  h1 { color: #ff6699; animation: floatText 3s ease-in-out infinite; }
+  @keyframes floatText { 0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);} }
+  .image-container { height:200px; margin-bottom:30px; position:relative; }
+  .reaction-img { width:200px; display:none; margin:0 auto; border-radius:15px; opacity:0; transition:opacity 0.6s ease, transform 0.6s ease; }
+  .show { display:block!important; opacity:1!important; transform:scale(1.05); }
+  button { font-size:18px; padding:10px 25px; margin:10px; border:none; border-radius:12px; cursor:pointer; transition:all 0.3s ease; }
+  #agreeBtn { background-color:#ff99cc; color:white; }
+  #refuseBtn { background-color:#999; color:white; }
+  .shake { animation:shake 0.3s ease-in-out; }
+  @keyframes shake { 0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}50%{transform:translateX(5px);}75%{transform:translateX(-5px);} }
+  .pulse { animation:pulse 0.6s ease-in-out; }
+  @keyframes pulse { 0%{transform:scale(1);}50%{transform:scale(1.3);}100%{transform:scale(1);} }
+  #log { margin-top:30px; font-size:14px; color:#555; }
+</style>
+</head>
+<body>
+
+<h1>我們和好好嗎？🥺</h1>
+
+<div class="image-container">
+  <img id="happyImg" class="reaction-img" src="image/sticker.png" alt="親親 💋">
+  <img id="angryImg" class="reaction-img" src="image/main.png" alt="生氣 😤">
+</div>
+
+<button id="agreeBtn">和好 💕</button>
+<button id="refuseBtn">不和好 😤</button>
+
+<div id="log"></div>
+
+<script>
+  // ✅ 初始化 EmailJS
+  (function() {
+    emailjs.init("juXElQrPso7c6tWXE"); // ← 這裡換成你的 Public Key
+  })();
+
+  const agreeBtn = document.getElementById('agreeBtn');
+  const refuseBtn = document.getElementById('refuseBtn');
+  const happyImg = document.getElementById('happyImg');
+  const angryImg = document.getElementById('angryImg');
+  const logDiv = document.getElementById('log');
+  let actions = [];
+  const defaultSize = parseInt(window.getComputedStyle(agreeBtn).fontSize);
+
+  function showImage(imgToShow) {
+    [happyImg, angryImg].forEach(img => {
+      img.classList.remove("show");
+      img.style.display = "none";
+    });
+    imgToShow.style.display = "block";
+    setTimeout(() => imgToShow.classList.add("show"), 50);
+  }
+
+  refuseBtn.addEventListener('click', () => {
+    showImage(angryImg);
+    actions.push("你點了不和好 😤");
+    updateLog();
+    let size = parseInt(window.getComputedStyle(agreeBtn).fontSize);
+    agreeBtn.style.fontSize = (size + 10) + "px";
+    agreeBtn.classList.add("shake");
+    setTimeout(() => agreeBtn.classList.remove("shake"), 400);
+  });
+
+  agreeBtn.addEventListener('click', () => {
+    showImage(happyImg);
+    actions.push("你點了和好 💕");
+    updateLog();
+    agreeBtn.classList.add("pulse");
+    setTimeout(() => {
+      agreeBtn.classList.remove("pulse");
+      agreeBtn.style.fontSize = defaultSize + "px";
+    }, 600);
+
+    // ✅ 寄信到你的信箱
+    const templateParams = {
+      subject: "你點了和好 💕",
+      message: actions.join("\n"),
+    };
+
+    emailjs.send("service_8vnnk73", "template_prz1cl9", templateParams)
+      .then(() => {
+        console.log("📩 已寄出到你的信箱！");
+      })
+      .catch((error) => {
+        console.error("❌ 寄信失敗：", error);
+      });
+  });
+
+  function updateLog() {
+    logDiv.innerHTML = "<b>你按過的按鈕：</b><br>" + actions.join("<br>");
+  }
+</script>
+
+</body>
+</html>
